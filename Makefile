@@ -15,14 +15,12 @@
 
 CC = gcc
 CCFLAGS = -Wall -Wextra -Werror
-NAME = ft_select
+NAME = ft_malloc
 SRCDIR = srcs
 OBJDIR = objs
 INCDIR = includes libft
 
-SRC =  main.c lst_utils.c lst_utils2.c utils.c term.c get_info.c display.c \
-	   print_arg.c key_func.c arrows.c signals.c
-
+SRC =  main.c 
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 INCS = $(addprefix -I , $(INCDIR))
@@ -34,9 +32,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 $(NAME): build $(OBJECTS)
 	@make -C libft
-	@$(CC) -L libft -lft -o $(NAME) -ltermcap $(OBJECTS)
+	@$(CC) -L libft -lft -o $(NAME) $(OBJECTS)
 	@(echo "\033[2K\033[2F")
-	@(echo "\n\033[32m MiniShell compiled\033[0m";)
+	@(echo "\n\033[32m Malloc libft done\033[0m";)
 
 build:
 	@mkdir -p $(OBJDIR)
