@@ -19,11 +19,12 @@ endif
 
 CC = gcc
 CCFLAGS = -Wall -Wextra -Werror
-NAME = libft_malloc_$(HOSTTYPE).so
+# NAME = libft_malloc_$(HOSTTYPE).so
+NAME = libft_malloc_$(HOSTTYPE).a
 SRCDIR = srcs
 OBJDIR = objs
 INCDIR = includes libft
-# SYMLINK = libft_malloc.so
+SYMLINK = libft_malloc.so
 
 SRC =  main.c ft_malloc.c
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
@@ -39,12 +40,14 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 $(NAME): build $(OBJECTS)
 	@make -C libft
-	@$(CC) -L libft -lft -o $(NAME) $(OBJECTS)
+	@echo "Generating $(NAME)"
+	@ar rcs $(NAME) $(OBJECTS)
+	@$(CC) -L libft -lft -o ft_malloc $(OBJECTS) #creating a binary, to delete
 	@(echo "\033[2K\033[2F")
 	@(echo "\n\033[32m Malloc libft done\033[0m";)
 
 	@(echo "Creating symlink $(SYMLINK) => $(NAME)")
-	@ln -s libft_malloc.so/$(NAME)
+	@ln -fs $(NAME) libft_malloc.so 
 
 build:
 	@mkdir -p $(OBJDIR)

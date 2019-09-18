@@ -15,7 +15,7 @@
 
 int	main(void)
 {
-	ft_malloc(5);
-	ft_putstr("ok");
+	size_t size = 5;
+	ft_malloc(size);
 	return (0);
 }
