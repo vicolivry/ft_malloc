@@ -15,7 +15,7 @@
 
 int	main(void)
 {
-	ft_printf("Pagesize = %d\n", PAGESIZE);
-	ft_printf("Mmap return = %xld\n", mmap(MMAP_ARGS(2)));
+	ft_malloc(5);
+	ft_putstr("ok");
 	return (0);
 }

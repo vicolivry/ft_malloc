@@ -13,17 +13,24 @@
 
 .PHONY: all clean fclean re
 
+ifeq ($(HOSTTYPE),)
+HOSTTYPE := $(shell uname -m)_$(shell uname -s)
+endif
+
 CC = gcc
 CCFLAGS = -Wall -Wextra -Werror
-NAME = ft_malloc
+NAME = libft_malloc_$(HOSTTYPE).so
 SRCDIR = srcs
 OBJDIR = objs
 INCDIR = includes libft
+# SYMLINK = libft_malloc.so
 
-SRC =  main.c 
+SRC =  main.c ft_malloc.c
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 INCS = $(addprefix -I , $(INCDIR))
+
+
 
 all: $(NAME)
 
@@ -35,6 +42,9 @@ $(NAME): build $(OBJECTS)
 	@$(CC) -L libft -lft -o $(NAME) $(OBJECTS)
 	@(echo "\033[2K\033[2F")
 	@(echo "\n\033[32m Malloc libft done\033[0m";)
+
+	@(echo "Creating symlink $(SYMLINK) => $(NAME)")
+	@ln -s libft_malloc.so/$(NAME)
 
 build:
 	@mkdir -p $(OBJDIR)

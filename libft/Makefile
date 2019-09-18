@@ -51,7 +51,7 @@ clean:
 	@rm -f $(OBJECTS)
 
 fclean: clean
-	@echo "Super cleaning libft.a"
+	@echo "Fcleaning libft.a"
 	@rm -f $(NAME)
 
 re: fclean all
