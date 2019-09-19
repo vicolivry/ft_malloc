@@ -21,15 +21,19 @@
 
 # define PAGESIZE sysconf(_SC_PAGESIZE)
 # define MMAP_ARGS(size) NULL, PAGESIZE, PROT_READ|PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0
+
 # define TINY_MIN 1
 # define TINY_MAX 40
 # define TINY_SIZE_AREA PAGESIZE
+
 # define SMALL_MIN TINY_MAX + 1
 # define SMALL_MAX 80
 # define SMALL_SIZE_AREA PAGESIZE * 2
+
 # define LARGE_MIN SMALL_MAX + 1
 
-
+# define FALSE 0
+# define TRUE 1
 
 void	ft_free(void *ptr);
 void	*ft_malloc(size_t size);

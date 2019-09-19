@@ -16,6 +16,9 @@
 
 void	*ft_malloc(size_t size)
 {
+	void	*addr;
+
+	if (size)
     errno = 0;
 
 	ft_printf("Len = %d\n", size);
