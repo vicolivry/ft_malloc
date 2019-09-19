@@ -19,8 +19,7 @@ endif
 
 CC = gcc
 CCFLAGS = -Wall -Wextra -Werror
-# NAME = libft_malloc_$(HOSTTYPE).so
-NAME = libft_malloc_$(HOSTTYPE).a
+NAME = libft_malloc_$(HOSTTYPE).so
 SRCDIR = srcs
 OBJDIR = objs
 INCDIR = includes libft
@@ -47,7 +46,7 @@ $(NAME): build $(OBJECTS)
 	@(echo "\n\033[32m Malloc libft done\033[0m";)
 
 	@(echo "Creating symlink $(SYMLINK) => $(NAME)")
-	@ln -fs $(NAME) libft_malloc.so 
+	@ln -fs $(NAME) $(SYMLINK)
 
 build:
 	@mkdir -p $(OBJDIR)
@@ -60,6 +59,6 @@ clean:
 fclean: clean
 	@echo "CLEANING ALL"
 	@make fclean -C ./libft/
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(SYMLINK)
 
 re: fclean all

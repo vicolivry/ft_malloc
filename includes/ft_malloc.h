@@ -20,7 +20,7 @@
 # include <sys/mman.h>
 
 # define PAGESIZE sysconf(_SC_PAGESIZE)
-# define MMAP_ARGS(size) NULL, PAGESIZE, PROT_READ|PROT_WRITE, MAP_SHARED, -1, 0
+# define MMAP_ARGS(size) NULL, PAGESIZE, PROT_READ|PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0
 # define TINY_MIN 1
 # define TINY_MAX 40
 # define TINY_SIZE_AREA PAGESIZE
