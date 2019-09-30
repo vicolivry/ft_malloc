@@ -39,37 +39,30 @@
 # define SMALL 1
 # define LARGE 2
 
+typedef struct  s_page_data
+{
+    struct s_page_data  *next;
+    struct s_page_data  *prev;
+    size_t              size;
+    int                 is_free;
+    int                 type;
+
+}               t_page_data;
+
+typedef struct s_mapping
+{
+	t_page_data	*tiny;
+	t_page_data	*small;
+	t_page_data	*large;
+}				t_mapping;
+
+extern	t_mapping	g_mapping;
+
+
 void	ft_free(void *ptr);
 void	*ft_malloc(size_t size);
 void	*ft_realloc(void *ptr, size_t size);
 void	show_alloc_mem();
 
-typedef struct 	s_page_alloc
-{	
-	void			*addr;
-	size_t			size;
-	struct 	s_page_alloc	*next;
-}
-				t_page_alloc;
-
-typedef struct s_page_info
-{
-	int				type;
-	void			*addr;
-	t_page_alloc	*alloc;
-	struct s_page_info		*next;
-}				t_page_info;
-
-
-typedef struct s_mapping
-{
-	t_page_info	*page;
-	t_page_info	*next;
-}				t_mapping;
-
-
-
-
-extern	t_mapping	*g_mapping;
 
 #endif

@@ -14,49 +14,49 @@
 #include "../includes/ft_malloc.h"
 #include <errno.h>
 
-t_mapping	*g_mapping = NULL;
+t_mapping	g_mapping = {NULL, NULL, NULL};
 
-
-
-void	init_map(size_t size)
+void	print_data(t_page_data *p)
 {
-	t_page_info		*page;
-	page = NULL;
-
-	g_mapping = mmap(MMAP_ARGS(size));
-	g_mapping->page = page;
-	g_mapping->next = NULL;
+	ft_printf("PAGE Adress: %d\n", p);
+	ft_printf("Type : %d\n", p->type);
+	ft_printf("Size : %d\n", p->size);
 }
 
-void	init_page(size_t size, t_page_info *page)
+void	*init_page(void)
 {
-	t_page_alloc	*alloc;
+	t_page_data	*new_page;
+	t_page_data	*header;
 
-	alloc = NULL;
-	page = mmap(MMAP_ARGS(TINY_SIZE_AREA));
-	page->type = TINY;
-	page->next = NULL;
-	page->addr = page;
-	// DEBUG
-	ft_printf("PAGE Adress:%x\n", page->addr);
-	ft_printf("Type : %d\n", page->type);
-	// END DEBUG
-	page->alloc->size = size;
-	ft_printf("HERE\n");
-	page->alloc->addr = page->addr + 1;
-	page->alloc->next = NULL;
+	new_page = mmap(MMAP_ARGS(TINY_SIZE_AREA));
+	if (new_page == NULL)
+		return (NULL);
+	new_page->type = TINY;
+	new_page->next = NULL;
+	new_page->prev = NULL;
+	new_page->size = TINY_SIZE_AREA - sizeof(t_page_data);
+	new_page->is_free = FALSE;
+
+	print_data(new_page);
+
+	header = new_page + 1;
+	header->next = NULL;
+	header->prev = NULL;
+	header->size = new_page->size - sizeof(t_page_data);
+	header->is_free = TRUE;
+	header->type = TINY;
+
+	print_data(header);
+	return (NULL);
 }
 
 
-void	*malloc_tiny(size_t size)
+void	*malloc_tiny(size_t size, t_mapping *g_mapping)
 {
-	if (g_mapping == NULL)
-		init_map(size);
-	ft_printf("mapping: %x\n", g_mapping);
-
-	if (g_mapping->page == NULL)
-		init_page(size, g_mapping->page);
-	return(g_mapping->page->alloc->addr);
+	if (g_mapping->tiny == NULL)
+		init_page();
+	size = 1;
+	return (NULL);
 }
 
 
@@ -66,7 +66,7 @@ void	*ft_malloc(size_t size)
 		return (NULL);
 
 	if (size <= TINY_ALLOC_SIZE)
-		return(malloc_tiny(size));
+		return(malloc_tiny(size, &g_mapping));
 	// else if (size > TINY_ALLOC_SIZE && size  <= SMALL_ALLOC_SIZE)
 	// 	malloc_small(size);
 	// else
