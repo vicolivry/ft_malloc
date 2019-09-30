@@ -15,14 +15,8 @@
 
 int	main(void)
 {
-	size_t size = 5;
-	ft_malloc(size);
-
-	void *ptr1 = malloc(5);
-	void *ptr2 = malloc(17);
-	void *ptr3 = malloc(5);
-
-	ft_printf("1st : %d\n", ptr2 - ptr1);
-	ft_printf("2nd : %d\n", ptr3 - ptr2);
+	ft_malloc(6);
+	ft_malloc(6);
+	ft_malloc(10);
 	return (0);
 }

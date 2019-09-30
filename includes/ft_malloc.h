@@ -44,6 +44,7 @@ typedef struct  s_page_data
     struct s_page_data  *next;
     struct s_page_data  *prev;
     size_t              size;
+    size_t              alloc_size;
     int                 is_free;
     int                 type;
 
