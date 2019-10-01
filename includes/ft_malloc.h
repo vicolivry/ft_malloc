@@ -48,7 +48,6 @@ typedef struct  s_page_data
     size_t              size;
     int                 type;
     int                 **data_tab;
-
 }               t_page_data;
 
 typedef struct s_mapping

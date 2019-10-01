@@ -16,17 +16,24 @@
 
 void	show_alloc_mem()
 {
-	t_page_data	*header;
+	void	*addr;
+	int		i;
 
-	header = g_mapping.tiny + 1;
+	i = 0;
+	addr = &g_mapping.tiny;
 	if (g_mapping.tiny != NULL)
 	{
 		write(1, "TINY: ", 6);
-		ft_printf("%p\n", g_mapping.tiny);
+		ft_printf("%p\n", &g_mapping.tiny);
 	}
-	while (header->next != NULL)
+	while (i < TINY_MAX)
 	{
-		ft_printf("0x%x - 0x%x : %d octets\n", header, (void*)header + 12, header->alloc_size);
-		header = header->next;
+		// ft_putstr("HOP\n");
+		if (g_mapping.tiny->data_tab[0][i] != 0)
+		{
+			ft_printf("%p - %p : %d octets\n",  addr + (i * TINY_ALLOC_SIZE), addr + (i * TINY_ALLOC_SIZE) +\
+			g_mapping.tiny->data_tab[1][i], g_mapping.tiny->data_tab[1][i]);
+		}
+		i++;
 	}
 }

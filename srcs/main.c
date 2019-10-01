@@ -15,10 +15,10 @@
 
 int	main(void)
 {
-	int	i = 1;
+	char *str2;
 
-	while (i++ < 12)
-		ft_malloc(12);
-	// show_alloc_mem();
+	str2 = ft_malloc(13);
+		// ft_putchar(str[0]);
+	show_alloc_mem();
 	return (0);
 }
