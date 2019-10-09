@@ -15,47 +15,83 @@
 
 t_mapping	g_mapping = {NULL, NULL, NULL};
 
-void	init_page_tiny()
+int     zone_is_full_tiny(t_page_data *tiny)
 {
-	int i;
-	i = 0;
-	t_page_data	*new_page;
+    int i;
 
-	new_page = mmap(MMAP_ARGS(TINY_SIZE_AREA));
-	if (new_page == NULL)
+    i = 0;
+    while (i < TINY_MAX)
+    {
+        if (tiny->data_tab[0][i] == 0)
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
+t_page_data	*add_zone_tiny()
+{
+	ft_putstr("ADD ZONE\n");
+
+	g_mapping.tiny->next = mmap(MMAP_ARGS(TINY_SIZE_AREA));
+	if (g_mapping.tiny->next == NULL)
+		return (NULL);
+	g_mapping.tiny->next->type = TINY;
+	g_mapping.tiny->next->next = NULL;
+	g_mapping.tiny->next->prev = g_mapping.tiny;
+	g_mapping.tiny->next->size = TINY_SIZE_AREA - sizeof(t_page_data);
+	g_mapping.tiny->next->data_tab = (int**)mmap(MMAP_ARGS(2 * sizeof(int*)));
+	g_mapping.tiny->next->data_tab[0] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
+	g_mapping.tiny->next->data_tab[1] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
+	ft_bzero(g_mapping.tiny->next->data_tab[0], TINY_MAX);
+	ft_bzero(g_mapping.tiny->next->data_tab[1], TINY_MAX);
+	return (g_mapping.tiny->next);
+}
+
+void	init_zone_tiny()
+{
+	g_mapping.tiny = mmap(MMAP_ARGS(TINY_SIZE_AREA));
+	if (g_mapping.tiny == NULL)
 		return ;
-	new_page->type = TINY;
-	new_page->next = NULL;
-	new_page->prev = NULL;
-	new_page->size = TINY_SIZE_AREA - sizeof(t_page_data);
-	new_page->data_tab = (int**)mmap(MMAP_ARGS(2 * sizeof(int*)));
-	new_page->data_tab[0] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
-	new_page->data_tab[1] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
-	while (i < TINY_MAX)
-	{
-		new_page->data_tab[0][i] = 0;
-		new_page->data_tab[1][i] = 0;
-		i++;
-	}
-	g_mapping.tiny = new_page;
-	// TODO if null create, else g_mapping.tiny == g_mapping.tiny->next
-	ft_printf("ZONE Adress: %p\n", &g_mapping.tiny);
+	g_mapping.tiny->type = TINY;
+	g_mapping.tiny->next = NULL;
+	g_mapping.tiny->prev = NULL;
+	g_mapping.tiny->size = TINY_SIZE_AREA - sizeof(t_page_data);
+	g_mapping.tiny->data_tab = (int**)mmap(MMAP_ARGS(2 * sizeof(int*)));
+	g_mapping.tiny->data_tab[0] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
+	g_mapping.tiny->data_tab[1] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
+	ft_bzero(g_mapping.tiny->data_tab[0], TINY_MAX);
+	ft_bzero(g_mapping.tiny->data_tab[1], TINY_MAX);
 }
 
 void	*malloc_tiny(size_t size)
 {
-	void	*res;
-	int		i;
+	void		*res;
+	int			i;
 
 	i = 0;
 	if (g_mapping.tiny == NULL)
-		init_page_tiny();
+	{
+		init_zone_tiny();
+			ft_printf("ZONE ADDR: %p\n", &g_mapping.tiny);
+	}
+	else
+	{
+		while (zone_is_full_tiny(g_mapping.tiny) && g_mapping.tiny->next != NULL)
+			g_mapping.tiny = g_mapping.tiny->next;
+		if (zone_is_full_tiny(g_mapping.tiny) && g_mapping.tiny->next == NULL)
+		{
+			g_mapping.tiny = add_zone_tiny();
+			ft_printf("ZONE ADDR: %p\n", &g_mapping.tiny);
+		}
+	}
 	while (g_mapping.tiny->data_tab[0][i])
 		i++;
-	ft_putstr("HERE\n");
 	g_mapping.tiny->data_tab[0][i] = 1;
 	g_mapping.tiny->data_tab[1][i] = size;
 	res = (void*)(g_mapping.tiny) + (i * TINY_ALLOC_SIZE);
+	while (g_mapping.tiny->prev)
+		g_mapping.tiny = g_mapping.tiny->prev;
 	return (res);
 }
 
@@ -70,6 +106,6 @@ void	*ft_malloc(size_t size)
 	// 	malloc_small(size);
 	// else
 	// 	malloc_large(size);
-    return (0);
+    return (NULL);
 } 
 

@@ -32,9 +32,6 @@
 
 # define LARGE_MIN SMALL_ALLOC_SIZE + 1
 
-# define FALSE 0
-# define TRUE 1
-
 # define TINY 0
 # define SMALL 1
 # define LARGE 2
@@ -64,6 +61,5 @@ void	ft_free(void *ptr);
 void	*ft_malloc(size_t size);
 void	*ft_realloc(void *ptr, size_t size);
 void	show_alloc_mem();
-
 
 #endif

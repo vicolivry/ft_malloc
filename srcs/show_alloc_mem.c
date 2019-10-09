@@ -14,26 +14,43 @@
 
 #include "../includes/ft_malloc.h"
 
-void	show_alloc_mem()
+int		show_alloc_mem_tiny(int res)
 {
 	void	*addr;
 	int		i;
 
-	i = 0;
 	addr = &g_mapping.tiny;
-	if (g_mapping.tiny != NULL)
+	i = 0;
+	while (g_mapping.tiny->next != NULL)
 	{
 		write(1, "TINY: ", 6);
-		ft_printf("%p\n", &g_mapping.tiny);
-	}
-	while (i < TINY_MAX)
-	{
-		// ft_putstr("HOP\n");
-		if (g_mapping.tiny->data_tab[0][i] != 0)
+		ft_printf("%p\n", &g_mapping.tiny->next);
+		i = 0;
+		while (i < TINY_MAX)
 		{
-			ft_printf("%p - %p : %d octets\n",  addr + (i * TINY_ALLOC_SIZE), addr + (i * TINY_ALLOC_SIZE) +\
-			g_mapping.tiny->data_tab[1][i], g_mapping.tiny->data_tab[1][i]);
+			if (g_mapping.tiny->data_tab[0][i] != 0)
+			{
+				ft_printf("%p - %p : %d octets\n",  addr + (i * TINY_ALLOC_SIZE), addr + (i * TINY_ALLOC_SIZE) +\
+				g_mapping.tiny->data_tab[1][i], g_mapping.tiny->data_tab[1][i]);
+				res += g_mapping.tiny->data_tab[1][i];
+			}
+			i++;
 		}
-		i++;
+		g_mapping.tiny = g_mapping.tiny->next;
 	}
+	while (g_mapping.tiny->prev != NULL)
+			g_mapping.tiny = g_mapping.tiny->prev;
+		return (res);
+}
+
+void	show_alloc_mem()
+{
+	int		res;
+
+	res = 0;
+
+	if (g_mapping.tiny != NULL)
+		res += show_alloc_mem_tiny(res);
+	if (res)
+		ft_printf("Total : %d\n", res);
 }

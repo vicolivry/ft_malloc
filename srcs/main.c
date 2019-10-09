@@ -15,10 +15,9 @@
 
 int	main(void)
 {
-	char *str2;
-
-	str2 = ft_malloc(13);
-		// ft_putchar(str[0]);
+	int i = 0;
+	while (i++ < 513)
+		ft_malloc(5);
 	show_alloc_mem();
 	return (0);
 }
