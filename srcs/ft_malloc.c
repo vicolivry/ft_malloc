@@ -15,86 +15,62 @@
 
 t_mapping	g_mapping = {NULL, NULL, NULL};
 
-int     zone_is_full_tiny(t_page_data *tiny)
+static size_t	large_zone_size(size_t size)
 {
-    int i;
-
-    i = 0;
-    while (i < TINY_MAX)
-    {
-        if (tiny->data_tab[0][i] == 0)
-            return (0);
-        i++;
-    }
-    return (1);
+	if (size % PAGESIZE == 0)
+		return (size);
+	else
+		return ((size / PAGESIZE + 1) * PAGESIZE);
 }
 
-t_page_data	*add_zone_tiny()
-{
-	ft_putstr("ADD ZONE\n");
 
-	g_mapping.tiny->next = mmap(MMAP_ARGS(TINY_SIZE_AREA));
-	if (g_mapping.tiny->next == NULL)
+static t_page_data	*add_zone_large(size_t size, size_t zone_size)
+{
+	g_mapping.large->next = mmap(MMAP_ARGS(zone_size + sizeof(t_page_data)));
+	if (g_mapping.large->next == NULL)
 		return (NULL);
-	g_mapping.tiny->next->type = TINY;
-	g_mapping.tiny->next->next = NULL;
-	g_mapping.tiny->next->prev = g_mapping.tiny;
-	g_mapping.tiny->next->size = TINY_SIZE_AREA - sizeof(t_page_data);
-	g_mapping.tiny->next->data_tab = (int**)mmap(MMAP_ARGS(2 * sizeof(int*)));
-	g_mapping.tiny->next->data_tab[0] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
-	g_mapping.tiny->next->data_tab[1] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
-	ft_bzero(g_mapping.tiny->next->data_tab[0], TINY_MAX);
-	ft_bzero(g_mapping.tiny->next->data_tab[1], TINY_MAX);
-	return (g_mapping.tiny->next);
+	g_mapping.large->next->prev = g_mapping.large;
+	g_mapping.large = g_mapping.large->next;
+	g_mapping.large->addr = &g_mapping.large->next;	
+	g_mapping.large->type = LARGE;
+	g_mapping.large->next = NULL;
+	g_mapping.large->size = size;
+	g_mapping.large->data_tab = NULL;
+	return (g_mapping.large);
 }
 
-void	init_zone_tiny()
+static void		init_zone_large(size_t size,size_t zone_size)
 {
-	g_mapping.tiny = mmap(MMAP_ARGS(TINY_SIZE_AREA));
-	if (g_mapping.tiny == NULL)
+	g_mapping.large = mmap(MMAP_ARGS(zone_size + sizeof(t_page_data)));
+	if (g_mapping.large == NULL)
 		return ;
-	g_mapping.tiny->type = TINY;
-	g_mapping.tiny->next = NULL;
-	g_mapping.tiny->prev = NULL;
-	g_mapping.tiny->size = TINY_SIZE_AREA - sizeof(t_page_data);
-	g_mapping.tiny->data_tab = (int**)mmap(MMAP_ARGS(2 * sizeof(int*)));
-	g_mapping.tiny->data_tab[0] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
-	g_mapping.tiny->data_tab[1] = (int*)mmap(MMAP_ARGS(TINY_MAX * sizeof(int)));
-	ft_bzero(g_mapping.tiny->data_tab[0], TINY_MAX);
-	ft_bzero(g_mapping.tiny->data_tab[1], TINY_MAX);
+	g_mapping.large->addr = &g_mapping.large;
+	g_mapping.large->type = LARGE;
+	g_mapping.large->next = NULL;
+	g_mapping.large->prev = NULL;
+	g_mapping.large->size =  size;
+	g_mapping.large->data_tab = NULL;
 }
 
-void	*malloc_tiny(size_t size)
+void	        *malloc_large(size_t size, size_t zone_size)
 {
 	void		*res;
 	int			i;
 
 	i = 0;
-	if (g_mapping.tiny == NULL)
-	{
-		init_zone_tiny();
-			ft_printf("ZONE ADDR: %p\n", &g_mapping.tiny);
-	}
+	if (g_mapping.large == NULL)
+		init_zone_large(size, zone_size);
 	else
 	{
-		while (zone_is_full_tiny(g_mapping.tiny) && g_mapping.tiny->next != NULL)
-			g_mapping.tiny = g_mapping.tiny->next;
-		if (zone_is_full_tiny(g_mapping.tiny) && g_mapping.tiny->next == NULL)
-		{
-			g_mapping.tiny = add_zone_tiny();
-			ft_printf("ZONE ADDR: %p\n", &g_mapping.tiny);
-		}
+		while (g_mapping.large->next != NULL)
+			g_mapping.large = g_mapping.large->next;
+		g_mapping.large = add_zone_large(size, zone_size);
 	}
-	while (g_mapping.tiny->data_tab[0][i])
-		i++;
-	g_mapping.tiny->data_tab[0][i] = 1;
-	g_mapping.tiny->data_tab[1][i] = size;
-	res = (void*)(g_mapping.tiny) + (i * TINY_ALLOC_SIZE);
-	while (g_mapping.tiny->prev)
-		g_mapping.tiny = g_mapping.tiny->prev;
+	res = g_mapping.large->addr;
+	while (g_mapping.large->prev)
+		g_mapping.large = g_mapping.large->prev;
 	return (res);
 }
-
 
 void	*ft_malloc(size_t size)
 {
@@ -102,10 +78,10 @@ void	*ft_malloc(size_t size)
 		return (NULL);
 	if (size <= TINY_ALLOC_SIZE)
 		return(malloc_tiny(size));
-	// else if (size > TINY_ALLOC_SIZE && size  <= SMALL_ALLOC_SIZE)
-	// 	malloc_small(size);
-	// else
-	// 	malloc_large(size);
+	else if (size  <= SMALL_ALLOC_SIZE)
+		malloc_small(size);
+	else
+		malloc_large(size, large_zone_size(size));
     return (NULL);
 } 
 

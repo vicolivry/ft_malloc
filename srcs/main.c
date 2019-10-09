@@ -15,9 +15,26 @@
 
 int	main(void)
 {
+	char	*str;
+
+	str = NULL;
 	int i = 0;
-	while (i++ < 513)
+	while (i++ < 150)
+	{
 		ft_malloc(5);
+		ft_malloc(42);
+		ft_malloc(6987);
+
+	}
+	str = (char*)ft_malloc(7);
 	show_alloc_mem();
+	str[0] = 'H';
+	str[1] = 'e';
+	str[2] = 'l';
+	str[3] = 'l';
+	str[4] = 'o';
+	str[5] = '\n';
+	str[6] = '\0';
+	ft_putstr(str);
 	return (0);
 }

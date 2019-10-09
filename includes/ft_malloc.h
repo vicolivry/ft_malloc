@@ -44,6 +44,7 @@ typedef struct  s_page_data
     struct s_page_data  *prev;
     size_t              size;
     int                 type;
+    void                *addr;
     int                 **data_tab;
 }               t_page_data;
 
@@ -59,6 +60,8 @@ extern	t_mapping	g_mapping;
 
 void	ft_free(void *ptr);
 void	*ft_malloc(size_t size);
+void    *malloc_tiny();
+void    *malloc_small();
 void	*ft_realloc(void *ptr, size_t size);
 void	show_alloc_mem();
 
