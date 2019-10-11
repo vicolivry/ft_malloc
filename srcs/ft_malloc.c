@@ -15,15 +15,6 @@
 
 t_mapping	g_mapping = {NULL, NULL, NULL};
 
-static size_t	large_zone_size(size_t size)
-{
-	if (size % PAGESIZE == 0)
-		return (size);
-	else
-		return ((size / PAGESIZE + 1) * PAGESIZE);
-}
-
-
 static t_page_data	*add_zone_large(size_t size, size_t zone_size)
 {
 	g_mapping.large->next = mmap(MMAP_ARGS(zone_size + sizeof(t_page_data)));
@@ -41,10 +32,10 @@ static t_page_data	*add_zone_large(size_t size, size_t zone_size)
 
 static void		init_zone_large(size_t size,size_t zone_size)
 {
-	g_mapping.large = mmap(MMAP_ARGS(zone_size + sizeof(t_page_data)));
+	g_mapping.large = mmap(MMAP_ARGS(sizeof(t_page_data)));
 	if (g_mapping.large == NULL)
 		return ;
-	g_mapping.large->addr = &g_mapping.large;
+	g_mapping.large->addr = mmap(MMAP_ARGS(zone_size));
 	g_mapping.large->type = LARGE;
 	g_mapping.large->next = NULL;
 	g_mapping.large->prev = NULL;
@@ -79,9 +70,9 @@ void	*ft_malloc(size_t size)
 	if (size <= TINY_ALLOC_SIZE)
 		return(malloc_tiny(size));
 	else if (size  <= SMALL_ALLOC_SIZE)
-		malloc_small(size);
+		return(malloc_small(size));
 	else
-		malloc_large(size, large_zone_size(size));
+		return(malloc_large(size, large_zone_size(size)));
     return (NULL);
 } 
 

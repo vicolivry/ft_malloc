@@ -64,5 +64,10 @@ void    *malloc_tiny();
 void    *malloc_small();
 void	*ft_realloc(void *ptr, size_t size);
 void	show_alloc_mem();
+int     zone_is_full(t_page_data *zone, size_t size_max);
+int     zone_is_empty(t_page_data *zone, size_t size_max);
+int     free_small(void *ptr);
+int     free_tiny(void *ptr);
+size_t	large_zone_size(size_t size);
 
 #endif

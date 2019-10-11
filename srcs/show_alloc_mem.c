@@ -22,7 +22,6 @@ int		show_alloc_mem_tiny(int res)
 
 	tiny = g_mapping.tiny;
 	addr = NULL;
-	i = 0;
 	while (tiny != NULL)
 	{
 		write(1, "TINY: ", 6);
@@ -33,8 +32,8 @@ int		show_alloc_mem_tiny(int res)
 		{
 			if (tiny->data_tab[0][i] != 0)
 			{
-				ft_printf("%p - %p : %d octets\n",  addr + (i * TINY_ALLOC_SIZE), addr + (i * TINY_ALLOC_SIZE) +\
-				tiny->data_tab[1][i], tiny->data_tab[1][i]);
+				ft_printf("%p - %p : %d octets\n",  addr + (i * TINY_ALLOC_SIZE),\
+				addr + (i * TINY_ALLOC_SIZE) + tiny->data_tab[1][i], tiny->data_tab[1][i]);
 				res += tiny->data_tab[1][i];
 			}
 			i++;
@@ -52,7 +51,6 @@ int		show_alloc_mem_small(int res)
 
 	small = g_mapping.small;
 	addr = NULL;
-	i = 0;
 	while (small != NULL)
 	{
 		write(1, "SMALL: ", 6);
@@ -63,8 +61,8 @@ int		show_alloc_mem_small(int res)
 		{
 			if (small->data_tab[0][i] != 0)
 			{
-				ft_printf("%p - %p : %d octets\n",  addr + (i * SMALL_ALLOC_SIZE), addr + (i * SMALL_ALLOC_SIZE) +\
-				small->data_tab[1][i], small->data_tab[1][i]);
+				ft_printf("%p - %p : %d octets\n",  addr + (i * SMALL_ALLOC_SIZE),\
+				addr + (i * SMALL_ALLOC_SIZE) + small->data_tab[1][i], small->data_tab[1][i]);
 				res += small->data_tab[1][i];
 			}
 			i++;

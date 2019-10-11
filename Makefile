@@ -25,7 +25,8 @@ OBJDIR = objs
 INCDIR = includes libft
 SYMLINK = libft_malloc.so
 
-SRC =  main.c ft_malloc.c show_alloc_mem.c malloc_tiny.c malloc_small.c
+SRC =  main.c ft_malloc.c show_alloc_mem.c malloc_tiny.c malloc_small.c\
+		free.c utils.c free_tiny.c free_small.c
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
 OBJECTS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 INCS = $(addprefix -I , $(INCDIR))

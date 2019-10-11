@@ -1,28 +1,14 @@
 
 #include "../includes/ft_malloc.h"
 
-static int			zone_is_full_tiny(t_page_data *tiny)
-{
-	int i;
-
-	i = 0;
-	while (i < TINY_MAX)
-	{
-		if (tiny->data_tab[0][i] == 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 static t_page_data	*add_zone_tiny()
 {
-	g_mapping.tiny->next = mmap(MMAP_ARGS(TINY_SIZE_AREA));
+	g_mapping.tiny->next = mmap(MMAP_ARGS(sizeof(t_page_data)));
 	if (g_mapping.tiny->next == NULL)
 		return (NULL);
 	g_mapping.tiny->next->prev = g_mapping.tiny;
 	g_mapping.tiny = g_mapping.tiny->next;
-	g_mapping.tiny->addr = &g_mapping.tiny->next;	
+	g_mapping.tiny->addr = mmap(MMAP_ARGS(TINY_SIZE_AREA));	
 	g_mapping.tiny->type = TINY;
 	g_mapping.tiny->next = NULL;
 	g_mapping.tiny->size = TINY_SIZE_AREA - sizeof(t_page_data);
@@ -36,10 +22,10 @@ static t_page_data	*add_zone_tiny()
 
 static void		init_zone_tiny()
 {
-	g_mapping.tiny = mmap(MMAP_ARGS(TINY_SIZE_AREA));
+	g_mapping.tiny = mmap(MMAP_ARGS(sizeof(t_page_data)));
 	if (g_mapping.tiny == NULL)
 		return ;
-	g_mapping.tiny->addr = &g_mapping.tiny;
+	g_mapping.tiny->addr = mmap(MMAP_ARGS(TINY_SIZE_AREA));
 	g_mapping.tiny->type = TINY;
 	g_mapping.tiny->next = NULL;
 	g_mapping.tiny->prev = NULL;
@@ -61,9 +47,9 @@ void	        *malloc_tiny(size_t size)
 		init_zone_tiny();
 	else
 	{
-		while (zone_is_full_tiny(g_mapping.tiny) && g_mapping.tiny->next != NULL)
+		while (zone_is_full(g_mapping.tiny, TINY_MAX) && g_mapping.tiny->next != NULL)
 			g_mapping.tiny = g_mapping.tiny->next;
-		if (zone_is_full_tiny(g_mapping.tiny) && g_mapping.tiny->next == NULL)
+		if (zone_is_full(g_mapping.tiny, TINY_MAX) && g_mapping.tiny->next == NULL)
 			g_mapping.tiny = add_zone_tiny();
 	}
 	while (g_mapping.tiny->data_tab[0][i])
