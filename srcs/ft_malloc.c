@@ -22,14 +22,14 @@ static t_large_data	*add_zone_large(size_t size, size_t zone_size)
 		return (NULL);
 	g_mapping.large->next->prev = g_mapping.large;
 	g_mapping.large = g_mapping.large->next;
-	g_mapping.large->addr = &g_mapping.large->next;	
+	g_mapping.large->addr = &g_mapping.large->next;
 	g_mapping.large->type = LARGE;
 	g_mapping.large->next = NULL;
 	g_mapping.large->size = size;
 	return (g_mapping.large);
 }
 
-static void			init_zone_large(size_t size,size_t zone_size)
+static void			init_zone_large(size_t size, size_t zone_size)
 {
 	g_mapping.large = mmap(MMAP_ARGS(sizeof(t_large_data)));
 	if (g_mapping.large == NULL)
@@ -38,10 +38,10 @@ static void			init_zone_large(size_t size,size_t zone_size)
 	g_mapping.large->type = LARGE;
 	g_mapping.large->next = NULL;
 	g_mapping.large->prev = NULL;
-	g_mapping.large->size =  size;
+	g_mapping.large->size = size;
 }
 
-void	        	*malloc_large(size_t size, size_t zone_size)
+void				*malloc_large(size_t size, size_t zone_size)
 {
 	void		*res;
 	int			i;
@@ -66,11 +66,10 @@ void				*ft_malloc(size_t size)
 	if (size <= 0)
 		return (NULL);
 	if (size <= TINY_ALLOC_SIZE)
-		return(malloc_tiny(size));
-	else if (size  <= SMALL_ALLOC_SIZE)
-		return(malloc_small(size));
+		return (malloc_tiny(size));
+	else if (size <= SMALL_ALLOC_SIZE)
+		return (malloc_small(size));
 	else
-		return(malloc_large(size, large_zone_size(size)));
-    return (NULL);
-} 
-
+		return (malloc_large(size, large_zone_size(size)));
+	return (NULL);
+}

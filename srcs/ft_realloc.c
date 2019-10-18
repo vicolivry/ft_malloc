@@ -2,13 +2,13 @@
 
 static void		*realloc_data_large(t_large_data *large, void *ptr, size_t size)
 {
-	void*	new_ptr;
+	void	*new_ptr;
 
 	new_ptr = NULL;
 	if (size > SMALL_ALLOC_SIZE && size > large_zone_size(large->size))
 	{
 		large->size = size;
-		return(ptr);
+		return (ptr);
 	}
 	else
 	{
@@ -27,7 +27,7 @@ static void		*realloc_large(void *ptr, size_t size)
 	while (large != NULL)
 	{
 		if (large->addr == ptr)
-			return(realloc_data_large(large, ptr, size));
+			return (realloc_data_large(large, ptr, size));
 		large = large->next;
 	}
 	return (NULL);
@@ -54,10 +54,10 @@ void			*ft_realloc(void *ptr, size_t size)
 	if (size <= 0)
 		return (NULL);
 	if (is_in_tiny(ptr))
-		return(realloc_tiny(ptr, size));
+		return (realloc_tiny(ptr, size));
 	else if (is_in_small(ptr))
-		return(realloc_small(ptr, size));
+		return (realloc_small(ptr, size));
 	else if (is_in_large(ptr))
-	 	return(realloc_large(ptr, size));
-    return (NULL);
-} 
+		return (realloc_large(ptr, size));
+	return (NULL);
+}

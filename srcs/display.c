@@ -1,8 +1,8 @@
 #include "../includes/ft_malloc.h"
 
-void 		ft_print(char *s)
+void		ft_print(char *s)
 {
-  write(1, s, ft_strlen(s));
+	write(1, s, ft_strlen(s));
 }
 
 void		put_ui_to_hex(uintmax_t n)
@@ -17,19 +17,19 @@ void		put_ui_to_hex(uintmax_t n)
 	while (tmp /= 16)
 		digits++;
 	tmp = n;
-    output[digits] = '\0';
+	output[digits] = '\0';
 	while (digits--)
 	{
 		output[digits] = list[tmp % 16];
 		tmp /= 16;
 	}
-    ft_print("0x");
+	ft_print("0x");
 	ft_print(output);
 }
 
-int	display_large(t_large_data *zone)
+int			display_large(t_large_data *zone)
 {
-	put_ui_to_hex((unsigned long)zone->addr);	
+	put_ui_to_hex((unsigned long)zone->addr);
 	ft_print(" - ");
 	put_ui_to_hex((unsigned long)zone->addr + zone->size);
 	ft_print(": ");
@@ -38,12 +38,12 @@ int	display_large(t_large_data *zone)
 	return (zone->size);
 }
 
-int    		display_small(t_small_data *zone, int i)
+int			display_small(t_small_data *zone, int i)
 {
 	int		res;
 
 	res = 0;
-	put_ui_to_hex((unsigned long)zone->addr + (i * SMALL_ALLOC_SIZE));	
+	put_ui_to_hex((unsigned long)zone->addr + (i * SMALL_ALLOC_SIZE));
 	ft_print(" - ");
 	put_ui_to_hex((unsigned long)zone->addr + (i * SMALL_ALLOC_SIZE)\
 		+ zone->data_tab[1][i]);
@@ -54,12 +54,12 @@ int    		display_small(t_small_data *zone, int i)
 	return (res);
 }
 
-int    		display_tiny(t_tiny_data *zone, int i)
+int			display_tiny(t_tiny_data *zone, int i)
 {
 	int		res;
 
 	res = 0;
-	put_ui_to_hex((unsigned long)zone->addr + (i * TINY_ALLOC_SIZE));	
+	put_ui_to_hex((unsigned long)zone->addr + (i * TINY_ALLOC_SIZE));
 	ft_print(" - ");
 	put_ui_to_hex((unsigned long)zone->addr + (i * TINY_ALLOC_SIZE)\
 		+ zone->data_tab[1][i]);

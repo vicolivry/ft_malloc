@@ -2,25 +2,25 @@
 
 static void	free_data_small(t_small_data *small, int i, void *ptr)
 {
-	t_small_data  *prev;
-    prev = NULL;
+	t_small_data	*prev;
 
+	prev = NULL;
 	ft_bzero(ptr, small->data_tab[0][i]);
 	small->data_tab[1][i] = 0;
 	small->data_tab[0][i] = 0;
-    if (!small_is_empty(small))
-        return;
-    if (g_mapping.small == small && small->next == NULL)
+	if (!small_is_empty(small))
+		return ;
+	if (g_mapping.small == small && small->next == NULL)
 		g_mapping.small = NULL;
-    else if (g_mapping.small == small && small->next != NULL)
-        g_mapping.small = small->next;
-    else
-    {
-        prev = g_mapping.small;
-        while (prev->next && prev->next != small)
-            prev = prev->next;
-        prev->next = small->next;
-    }
+	else if (g_mapping.small == small && small->next != NULL)
+		g_mapping.small = small->next;
+	else
+	{
+		prev = g_mapping.small;
+		while (prev->next && prev->next != small)
+			prev = prev->next;
+		prev->next = small->next;
+	}
 	munmap(small->addr, SMALL_SIZE_AREA);
 	munmap(small, sizeof(t_small_data));
 }
@@ -28,7 +28,7 @@ static void	free_data_small(t_small_data *small, int i, void *ptr)
 int			free_small(void *ptr)
 {
 	t_small_data	*small;
-	int			i;
+	int				i;
 
 	small = g_mapping.small;
 	if (small == NULL)

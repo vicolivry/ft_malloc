@@ -11,7 +11,6 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-
 #include "../includes/ft_malloc.h"
 
 int		show_alloc_mem_tiny(void)
@@ -27,7 +26,7 @@ int		show_alloc_mem_tiny(void)
 	while (tiny != NULL)
 	{
 		ft_print("TINY: ");
-		put_ui_to_hex((unsigned long)tiny->addr); 
+		put_ui_to_hex((unsigned long)tiny->addr);
 		ft_print("\n");
 		i = 0;
 		addr = tiny->addr;
@@ -44,10 +43,10 @@ int		show_alloc_mem_tiny(void)
 
 int		show_alloc_mem_small(void)
 {
-	void	*addr;
-	int		i;
+	void			*addr;
+	int				i;
 	t_small_data	*small;
-	int			res;
+	int				res;
 
 	res = 0;
 	small = g_mapping.small;
@@ -55,7 +54,7 @@ int		show_alloc_mem_small(void)
 	while (small != NULL)
 	{
 		ft_print("SMALL: ");
-		put_ui_to_hex((unsigned long)small->addr); 
+		put_ui_to_hex((unsigned long)small->addr);
 		ft_print("\n");
 		i = 0;
 		addr = small->addr;
@@ -72,10 +71,10 @@ int		show_alloc_mem_small(void)
 
 int		show_alloc_mem_large(void)
 {
-	void		*addr;
-	int			i;
+	void			*addr;
+	int				i;
 	t_large_data	*large;
-	int			res;
+	int				res;
 
 	res = 0;
 	large = g_mapping.large;
@@ -84,7 +83,7 @@ int		show_alloc_mem_large(void)
 	while (large != NULL)
 	{
 		ft_print("LARGE: ");
-		put_ui_to_hex((unsigned long)large->addr); 
+		put_ui_to_hex((unsigned long)large->addr);
 		ft_print("\n");
 		addr = large->addr;
 		res += display_large(large);
@@ -96,8 +95,8 @@ int		show_alloc_mem_large(void)
 void	show_alloc_mem(void)
 {
 	int		res;
-	res = 0;
 
+	res = 0;
 	if (g_mapping.tiny != NULL)
 		res += show_alloc_mem_tiny();
 	if (g_mapping.small != NULL)

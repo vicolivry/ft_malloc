@@ -2,13 +2,13 @@
 
 static void	*realloc_data_tiny(t_tiny_data *tiny, int i, void *ptr, size_t size)
 {
-	void*	new_ptr;
+	void	*new_ptr;
 
 	new_ptr = NULL;
 	if (size <= TINY_ALLOC_SIZE)
 	{
 		tiny->data_tab[1][i] = size;
-		return(ptr);
+		return (ptr);
 	}
 	else
 	{
@@ -31,8 +31,7 @@ void		*realloc_tiny(void *ptr, size_t size)
 		while (i < TINY_MAX)
 		{
 			if (tiny->addr + (i * TINY_ALLOC_SIZE) == ptr)
-				return(realloc_data_tiny(tiny, i, ptr, size));
-
+				return (realloc_data_tiny(tiny, i, ptr, size));
 			i++;
 		}
 		tiny = tiny->next;

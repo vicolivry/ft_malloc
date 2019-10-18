@@ -2,21 +2,21 @@
 
 static void	free_data_large(t_large_data *large, void *ptr)
 {
-	t_large_data  *prev;
-    prev = NULL;
+	t_large_data	*prev;
 
+	prev = NULL;
 	ft_bzero(ptr, large->size);
-    if (g_mapping.large == large && large->next == NULL)
+	if (g_mapping.large == large && large->next == NULL)
 		g_mapping.large = NULL;
-    else if (g_mapping.large == large && large->next != NULL)
-        g_mapping.large = large->next;
-    else
-    {
-        prev = g_mapping.large;
-        while (prev->next && prev->next != large)
-            prev = prev->next;
-        prev->next = large->next;
-    }
+	else if (g_mapping.large == large && large->next != NULL)
+		g_mapping.large = large->next;
+	else
+	{
+		prev = g_mapping.large;
+		while (prev->next && prev->next != large)
+			prev = prev->next;
+		prev->next = large->next;
+	}
 	munmap(large->addr, large_zone_size(large->size));
 	munmap(large, sizeof(t_large_data));
 }
@@ -43,11 +43,11 @@ static int	free_large(void *ptr)
 void		ft_free(void *ptr)
 {
 	if (ptr == NULL || ptr == 0)
-		return;
+		return ;
 	if (free_tiny(ptr))
-		return;
+		return ;
 	else if (free_small(ptr))
-		return;
+		return ;
 	else
 		free_large(ptr);
 }
