@@ -25,7 +25,7 @@ static void	free_data_small(t_page_data *small, int i, void *ptr)
 	munmap(small, sizeof(t_page_data));
 }
 
-int         free_small(void *ptr)
+int			free_small(void *ptr)
 {
 	t_page_data	*small;
 	int			i;

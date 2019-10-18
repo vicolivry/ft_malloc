@@ -69,5 +69,12 @@ int     zone_is_empty(t_page_data *zone, size_t size_max);
 int     free_small(void *ptr);
 int     free_tiny(void *ptr);
 size_t	large_zone_size(size_t size);
+int		is_in_tiny(void *ptr);
+int		is_in_small(void *ptr);
+void	*realloc_tiny(void *ptr, size_t size);
+void	*realloc_small(void *ptr, size_t size);
+void    ft_print(char *s);
+void	put_ui_to_hex(uintmax_t n);
+int		display_alloc_mem(t_page_data *zone, int i);
 
 #endif

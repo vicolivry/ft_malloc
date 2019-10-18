@@ -13,11 +13,6 @@
 
 #include "../includes/ft_malloc.h"
 
-void print(char *s)
-{
-  write(1, s, strlen(s));
-}
-
 void	tests()
 {
 	char	*str;
@@ -26,12 +21,44 @@ void	tests()
 	str = NULL;
 	str2 = NULL;
 
-	str = (char*)ft_malloc(5618);
+	// str = (char*)malloc(561);
 	// printf("Ft malloc &str = %p\n\n", &str);
 	// int i = 0;
 	// str = ft_malloc(47);
 
-	strcpy(str, "HELLO\n");
+	// ft_printf("str ptr: %p\n", str = (char*)ft_malloc(2020));
+	// str[0] = 'A';
+	// str[1] = 'A';
+	// str[2] = 'A';
+	// str[3] = 'A';
+	// str[4] = 'A';
+	// str[5] = 'A';
+	// str[6] = 'A';
+	// str[7] = 'A';
+	// str[8] = 'A';
+	// str[9] = 'A';
+	// str[10] = 'A';
+	// str[11] = 'A';
+	// str[12] = 'A';
+	// str[13] = 'A';
+	// str[14] = 'A';
+	// str[15] = 'A';
+	// str[16] = 'A';
+	// str[17] = 'A';
+	// str[18] = 'A';
+	// str[19] = '\n';
+
+	// show_alloc_mem();
+	// print(str);
+	// ft_free(str);
+	// ft_malloc(5);
+	ft_malloc(25);
+	ft_malloc(25);
+	// ft_malloc(35);
+	ft_malloc(5000);
+	// ft_malloc(5000);
+	show_alloc_mem();
+	// print(str);
 
 	// while (i++ < 512)
 	// {
@@ -59,9 +86,8 @@ void	tests()
 	// ft_malloc(5);
 	// printf("ft_malloc return: %p\n", str = ft_malloc(7));
 	// ft_free(str);
-	print(str);
+	// print(str);
 	// ft_putendl("HERE");
-	show_alloc_mem();
 
 }
 

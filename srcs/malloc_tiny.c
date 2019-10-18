@@ -20,7 +20,7 @@ static t_page_data	*add_zone_tiny()
 	return (g_mapping.tiny);
 }
 
-static void		init_zone_tiny()
+static void			init_zone_tiny()
 {
 	g_mapping.tiny = mmap(MMAP_ARGS(sizeof(t_page_data)));
 	if (g_mapping.tiny == NULL)
@@ -37,7 +37,7 @@ static void		init_zone_tiny()
 	ft_bzero(g_mapping.tiny->data_tab[1], TINY_MAX);
 }
 
-void	        *malloc_tiny(size_t size)
+void	        	*malloc_tiny(size_t size)
 {
 	void		*res;
 	int			i;
