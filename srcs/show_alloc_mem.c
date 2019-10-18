@@ -18,7 +18,7 @@ int		show_alloc_mem_tiny(void)
 {
 	void		*addr;
 	int			i;
-	t_page_data	*tiny;
+	t_tiny_data	*tiny;
 	int			res;
 
 	res = 0;
@@ -34,7 +34,7 @@ int		show_alloc_mem_tiny(void)
 		while (i < TINY_MAX)
 		{
 			if (tiny->data_tab[0][i] != 0)
-				res += display_alloc_mem(tiny, i);
+				res += display_tiny(tiny, i);
 			i++;
 		}
 		tiny = tiny->next;
@@ -46,7 +46,7 @@ int		show_alloc_mem_small(void)
 {
 	void	*addr;
 	int		i;
-	t_page_data	*small;
+	t_small_data	*small;
 	int			res;
 
 	res = 0;
@@ -62,7 +62,7 @@ int		show_alloc_mem_small(void)
 		while (i < SMALL_MAX)
 		{
 			if (small->data_tab[0][i] != 0)
-				res += display_alloc_mem(small, i);
+				res += display_small(small, i);
 			i++;
 		}
 		small = small->next;
@@ -74,7 +74,7 @@ int		show_alloc_mem_large(void)
 {
 	void		*addr;
 	int			i;
-	t_page_data	*large;
+	t_large_data	*large;
 	int			res;
 
 	res = 0;
@@ -87,7 +87,7 @@ int		show_alloc_mem_large(void)
 		put_ui_to_hex((unsigned long)large->addr); 
 		ft_print("\n");
 		addr = large->addr;
-		res += display_alloc_mem(large, i);
+		res += display_large(large);
 		large = large->next;
 	}
 	return (res);

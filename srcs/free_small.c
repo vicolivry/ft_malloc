@@ -1,14 +1,14 @@
 #include "../includes/ft_malloc.h"
 
-static void	free_data_small(t_page_data *small, int i, void *ptr)
+static void	free_data_small(t_small_data *small, int i, void *ptr)
 {
-	t_page_data  *prev;
+	t_small_data  *prev;
     prev = NULL;
 
 	ft_bzero(ptr, small->data_tab[0][i]);
 	small->data_tab[1][i] = 0;
 	small->data_tab[0][i] = 0;
-    if (!zone_is_empty(small, SMALL_MAX))
+    if (!small_is_empty(small))
         return;
     if (g_mapping.small == small && small->next == NULL)
 		g_mapping.small = NULL;
@@ -22,12 +22,12 @@ static void	free_data_small(t_page_data *small, int i, void *ptr)
         prev->next = small->next;
     }
 	munmap(small->addr, SMALL_SIZE_AREA);
-	munmap(small, sizeof(t_page_data));
+	munmap(small, sizeof(t_small_data));
 }
 
 int			free_small(void *ptr)
 {
-	t_page_data	*small;
+	t_small_data	*small;
 	int			i;
 
 	small = g_mapping.small;

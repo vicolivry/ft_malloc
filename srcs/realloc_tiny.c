@@ -1,6 +1,6 @@
 #include "../includes/ft_malloc.h"
 
-static void	*realloc_data_tiny(t_page_data *tiny, int i, void *ptr, size_t size)
+static void	*realloc_data_tiny(t_tiny_data *tiny, int i, void *ptr, size_t size)
 {
 	void*	new_ptr;
 
@@ -21,7 +21,7 @@ static void	*realloc_data_tiny(t_page_data *tiny, int i, void *ptr, size_t size)
 
 void		*realloc_tiny(void *ptr, size_t size)
 {
-	t_page_data	*tiny;
+	t_tiny_data	*tiny;
 	int			i;
 
 	tiny = g_mapping.tiny;

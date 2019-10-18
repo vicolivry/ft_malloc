@@ -1,11 +1,25 @@
 #include "../includes/ft_malloc.h"
 
-int		zone_is_full(t_page_data *zone, size_t size_max)
+int		small_is_full(t_small_data *zone)
 {
 	size_t  i;
 
 	i = 0;
-	while (i < size_max)
+	while (i < SMALL_MAX)
+	{
+		if (zone->data_tab[0][i] == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int		tiny_is_full(t_tiny_data *zone)
+{
+	size_t  i;
+
+	i = 0;
+	while (i < TINY_MAX)
 	{
 		if (zone->data_tab[0][i] == 0)
 			return (0);
@@ -15,12 +29,26 @@ int		zone_is_full(t_page_data *zone, size_t size_max)
 }
 
 
-int		zone_is_empty(t_page_data *zone, size_t size_max)
+int		small_is_empty(t_small_data *zone)
 {
 	size_t i;
 
 	i = 0;
-	while (i < size_max)
+	while (i < SMALL_MAX)
+	{
+		if (zone->data_tab[0][i] != 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int		tiny_is_empty(t_tiny_data *zone)
+{
+	size_t i;
+
+	i = 0;
+	while (i < TINY_MAX)
 	{
 		if (zone->data_tab[0][i] != 0)
 			return (0);
@@ -31,7 +59,7 @@ int		zone_is_empty(t_page_data *zone, size_t size_max)
 
 int		is_in_tiny(void *ptr)
 {
-	t_page_data	*tiny;
+	t_tiny_data	*tiny;
 	int			i;
 
 	tiny = g_mapping.tiny;
@@ -53,7 +81,7 @@ int		is_in_tiny(void *ptr)
 
 int		is_in_small(void *ptr)
 {
-	t_page_data	*small;
+	t_small_data	*small;
 	int			i;
 
 	small = g_mapping.small;

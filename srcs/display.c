@@ -27,7 +27,7 @@ void		put_ui_to_hex(uintmax_t n)
 	ft_print(output);
 }
 
-static int	display_large(t_page_data *zone)
+int	display_large(t_large_data *zone)
 {
 	put_ui_to_hex((unsigned long)zone->addr);	
 	ft_print(" - ");
@@ -38,25 +38,34 @@ static int	display_large(t_page_data *zone)
 	return (zone->size);
 }
 
-int    		display_alloc_mem(t_page_data *zone, int i)
+int    		display_small(t_small_data *zone, int i)
 {
 	int		res;
-	size_t	alloc_size;
 
 	res = 0;
-	if (zone->type != LARGE)
-	{
-		alloc_size = zone->type == TINY ? TINY_ALLOC_SIZE : SMALL_ALLOC_SIZE;
-		put_ui_to_hex((unsigned long)zone->addr + (i * alloc_size));	
-		ft_print(" - ");
-		put_ui_to_hex((unsigned long)zone->addr + (i * alloc_size)\
-			+ zone->data_tab[1][i]);
-		ft_print(": ");
-		ft_putnbr(zone->data_tab[1][i]);
-		ft_print(" octets\n");
-		res = zone->data_tab[1][i];
-	}
-	else
-		res = display_large(zone);
+	put_ui_to_hex((unsigned long)zone->addr + (i * SMALL_ALLOC_SIZE));	
+	ft_print(" - ");
+	put_ui_to_hex((unsigned long)zone->addr + (i * SMALL_ALLOC_SIZE)\
+		+ zone->data_tab[1][i]);
+	ft_print(": ");
+	ft_putnbr(zone->data_tab[1][i]);
+	ft_print(" octets\n");
+	res = zone->data_tab[1][i];
+	return (res);
+}
+
+int    		display_tiny(t_tiny_data *zone, int i)
+{
+	int		res;
+
+	res = 0;
+	put_ui_to_hex((unsigned long)zone->addr + (i * TINY_ALLOC_SIZE));	
+	ft_print(" - ");
+	put_ui_to_hex((unsigned long)zone->addr + (i * TINY_ALLOC_SIZE)\
+		+ zone->data_tab[1][i]);
+	ft_print(": ");
+	ft_putnbr(zone->data_tab[1][i]);
+	ft_print(" octets\n");
+	res = zone->data_tab[1][i];
 	return (res);
 }

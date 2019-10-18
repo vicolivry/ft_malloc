@@ -1,9 +1,9 @@
 
 #include "../includes/ft_malloc.h"
 
-static t_page_data	*add_zone_small()
+static t_small_data	*add_zone_small()
 {
-	g_mapping.small->next = mmap(MMAP_ARGS(sizeof(t_page_data)));
+	g_mapping.small->next = mmap(MMAP_ARGS(sizeof(t_small_data)));
 	if (g_mapping.small->next == NULL)
 		return (NULL);
 	g_mapping.small->next->prev = g_mapping.small;
@@ -11,10 +11,7 @@ static t_page_data	*add_zone_small()
 	g_mapping.small->addr = mmap(MMAP_ARGS(SMALL_SIZE_AREA));
 	g_mapping.small->type = SMALL;
 	g_mapping.small->next = NULL;
-	g_mapping.small->size = SMALL_SIZE_AREA - sizeof(t_page_data);
-	g_mapping.small->data_tab = (int**)mmap(MMAP_ARGS(2 * sizeof(int*)));
-	g_mapping.small->data_tab[0] = (int*)mmap(MMAP_ARGS(SMALL_MAX * sizeof(int)));
-	g_mapping.small->data_tab[1] = (int*)mmap(MMAP_ARGS(SMALL_MAX * sizeof(int)));
+	g_mapping.small->size = SMALL_SIZE_AREA - sizeof(t_small_data);
 	ft_bzero(g_mapping.small->data_tab[0], SMALL_MAX);
 	ft_bzero(g_mapping.small->data_tab[1], SMALL_MAX);
 	return (g_mapping.small);
@@ -22,17 +19,14 @@ static t_page_data	*add_zone_small()
 
 static void			init_zone_small()
 {
-	g_mapping.small = mmap(MMAP_ARGS(sizeof(t_page_data)));
+	g_mapping.small = mmap(MMAP_ARGS(sizeof(t_small_data)));
 	if (g_mapping.small == NULL)
 		return ;
 	g_mapping.small->addr = mmap(MMAP_ARGS(SMALL_SIZE_AREA));
 	g_mapping.small->type = SMALL;
 	g_mapping.small->next = NULL;
 	g_mapping.small->prev = NULL;
-	g_mapping.small->size = SMALL_SIZE_AREA - sizeof(t_page_data);
-	g_mapping.small->data_tab = (int**)mmap(MMAP_ARGS(2 * sizeof(int*)));
-	g_mapping.small->data_tab[0] = (int*)mmap(MMAP_ARGS(SMALL_MAX * sizeof(int)));
-	g_mapping.small->data_tab[1] = (int*)mmap(MMAP_ARGS(SMALL_MAX * sizeof(int)));
+	g_mapping.small->size = SMALL_SIZE_AREA - sizeof(t_small_data);
 	ft_bzero(g_mapping.small->data_tab[0], SMALL_MAX);
 	ft_bzero(g_mapping.small->data_tab[1], SMALL_MAX);
 }
@@ -47,9 +41,9 @@ void	        	*malloc_small(size_t size)
 		init_zone_small();
 	else
 	{
-		while (zone_is_full(g_mapping.small, SMALL_MAX) && g_mapping.small->next != NULL)
+		while (small_is_full(g_mapping.small) && g_mapping.small->next != NULL)
 			g_mapping.small = g_mapping.small->next;
-		if (zone_is_full(g_mapping.small, SMALL_MAX) && g_mapping.small->next == NULL)
+		if (small_is_full(g_mapping.small) && g_mapping.small->next == NULL)
 			g_mapping.small = add_zone_small();
 	}
 	while (g_mapping.small->data_tab[0][i])

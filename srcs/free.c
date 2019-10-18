@@ -1,8 +1,8 @@
 #include "../includes/ft_malloc.h"
 
-static void	free_data_large(t_page_data *large, void *ptr)
+static void	free_data_large(t_large_data *large, void *ptr)
 {
-	t_page_data  *prev;
+	t_large_data  *prev;
     prev = NULL;
 
 	ft_bzero(ptr, large->size);
@@ -18,12 +18,12 @@ static void	free_data_large(t_page_data *large, void *ptr)
         prev->next = large->next;
     }
 	munmap(large->addr, large_zone_size(large->size));
-	munmap(large, sizeof(t_page_data));
+	munmap(large, sizeof(t_large_data));
 }
 
 static int	free_large(void *ptr)
 {
-	t_page_data	*large;
+	t_large_data	*large;
 
 	large = g_mapping.large;
 	if (large == NULL)

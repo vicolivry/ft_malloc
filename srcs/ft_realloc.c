@@ -1,6 +1,6 @@
 #include "../includes/ft_malloc.h"
 
-static void		*realloc_data_large(t_page_data *large, void *ptr, size_t size)
+static void		*realloc_data_large(t_large_data *large, void *ptr, size_t size)
 {
 	void*	new_ptr;
 
@@ -21,7 +21,7 @@ static void		*realloc_data_large(t_page_data *large, void *ptr, size_t size)
 
 static void		*realloc_large(void *ptr, size_t size)
 {
-	t_page_data	*large;
+	t_large_data	*large;
 
 	large = g_mapping.large;
 	while (large != NULL)
@@ -35,7 +35,7 @@ static void		*realloc_large(void *ptr, size_t size)
 
 static int		is_in_large(void *ptr)
 {
-	t_page_data	*large;
+	t_large_data	*large;
 
 	large = g_mapping.large;
 	if (large == NULL)
