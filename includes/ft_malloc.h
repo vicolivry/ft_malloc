@@ -43,7 +43,6 @@ typedef struct  s_tiny_data
     struct s_tiny_data  *next;
     struct s_tiny_data  *prev;
     size_t              size;
-    int                 type;
     void                *addr;
     int                 data_tab[2][TINY_MAX];
 }               t_tiny_data;
@@ -53,7 +52,6 @@ typedef struct  s_small_data
     struct s_small_data  *next;
     struct s_small_data  *prev;
     size_t              size;
-    int                 type;
     void                *addr;
     int                 data_tab[2][SMALL_MAX];
 }               t_small_data;
@@ -63,13 +61,12 @@ typedef struct  s_large_data
     struct s_large_data  *next;
     struct s_large_data  *prev;
     size_t              size;
-    int                 type;
     void                *addr;
 }               t_large_data;
 
 typedef struct s_mapping
 {
-	t_tiny_data	*tiny;
+	t_tiny_data		*tiny;
 	t_small_data	*small;
 	t_large_data	*large;
 }				t_mapping;

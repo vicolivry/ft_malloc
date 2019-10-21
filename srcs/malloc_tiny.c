@@ -21,7 +21,6 @@ static t_tiny_data	*add_zone_tiny(void)
 	g_mapping.tiny->next->prev = g_mapping.tiny;
 	g_mapping.tiny = g_mapping.tiny->next;
 	g_mapping.tiny->addr = mmap(MMAP_ARGS(TINY_SIZE_AREA));
-	g_mapping.tiny->type = TINY;
 	g_mapping.tiny->next = NULL;
 	g_mapping.tiny->size = TINY_SIZE_AREA - sizeof(t_tiny_data);
 	ft_bzero(g_mapping.tiny->data_tab[0], TINY_MAX);
@@ -35,7 +34,6 @@ static void			init_zone_tiny(void)
 	if (g_mapping.tiny == NULL)
 		return ;
 	g_mapping.tiny->addr = mmap(MMAP_ARGS(TINY_SIZE_AREA));
-	g_mapping.tiny->type = TINY;
 	g_mapping.tiny->next = NULL;
 	g_mapping.tiny->prev = NULL;
 	g_mapping.tiny->size = TINY_SIZE_AREA - sizeof(t_tiny_data);
