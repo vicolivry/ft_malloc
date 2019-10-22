@@ -3,22 +3,22 @@
 /*                                                              /             */
 /*   show_alloc_mem.c                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/01 11:26:59 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 11:16:09 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/22 11:55:39 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/ft_malloc.h"
 
-int		show_alloc_mem_tiny(void)
+static size_t	show_alloc_mem_tiny(void)
 {
 	void		*addr;
 	int			i;
 	t_tiny_data	*tiny;
-	int			res;
+	size_t		res;
 
 	res = 0;
 	tiny = g_mapping.tiny;
@@ -41,12 +41,12 @@ int		show_alloc_mem_tiny(void)
 	return (res);
 }
 
-int		show_alloc_mem_small(void)
+static size_t	show_alloc_mem_small(void)
 {
 	void			*addr;
 	int				i;
 	t_small_data	*small;
-	int				res;
+	size_t			res;
 
 	res = 0;
 	small = g_mapping.small;
@@ -69,12 +69,12 @@ int		show_alloc_mem_small(void)
 	return (res);
 }
 
-int		show_alloc_mem_large(void)
+static size_t	show_alloc_mem_large(void)
 {
 	void			*addr;
 	int				i;
 	t_large_data	*large;
-	int				res;
+	size_t			res;
 
 	res = 0;
 	large = g_mapping.large;
@@ -92,9 +92,9 @@ int		show_alloc_mem_large(void)
 	return (res);
 }
 
-void	show_alloc_mem(void)
+void			show_alloc_mem(void)
 {
-	int		res;
+	size_t		res;
 
 	res = 0;
 	if (g_mapping.tiny != NULL)

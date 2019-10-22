@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   display.c                                        .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 10:53:00 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 10:53:03 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/22 11:55:22 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -40,7 +40,7 @@ void		put_ui_to_hex(uintmax_t n)
 	ft_print(output);
 }
 
-int			display_large(t_large_data *zone)
+size_t		display_large(t_large_data *zone)
 {
 	put_ui_to_hex((unsigned long)zone->addr);
 	ft_print(" - ");
@@ -48,12 +48,12 @@ int			display_large(t_large_data *zone)
 	ft_print(": ");
 	ft_putnbr(zone->size);
 	ft_print(" octets\n");
-	return (zone->size);
+	return ((size_t)zone->size);
 }
 
-int			display_small(t_small_data *zone, int i)
+size_t		display_small(t_small_data *zone, int i)
 {
-	int		res;
+	size_t	res;
 
 	res = 0;
 	put_ui_to_hex((unsigned long)zone->addr + (i * SMALL_ALLOC_SIZE));
@@ -63,13 +63,13 @@ int			display_small(t_small_data *zone, int i)
 	ft_print(": ");
 	ft_putnbr(zone->data_tab[1][i]);
 	ft_print(" octets\n");
-	res = zone->data_tab[1][i];
+	res = (size_t)zone->data_tab[1][i];
 	return (res);
 }
 
-int			display_tiny(t_tiny_data *zone, int i)
+size_t		display_tiny(t_tiny_data *zone, int i)
 {
-	int		res;
+	size_t	res;
 
 	res = 0;
 	put_ui_to_hex((unsigned long)zone->addr + (i * TINY_ALLOC_SIZE));
@@ -79,6 +79,6 @@ int			display_tiny(t_tiny_data *zone, int i)
 	ft_print(": ");
 	ft_putnbr(zone->data_tab[1][i]);
 	ft_print(" octets\n");
-	res = zone->data_tab[1][i];
+	res = (size_t)zone->data_tab[1][i];
 	return (res);
 }

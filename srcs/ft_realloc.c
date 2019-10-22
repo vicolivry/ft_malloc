@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   ft_realloc.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 11:15:11 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 11:15:12 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/21 17:51:09 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,9 +25,9 @@ static void		*realloc_data_large(t_large_data *large, void *ptr, size_t size)
 	}
 	else
 	{
-		new_ptr = ft_malloc(size);
+		new_ptr = malloc(size);
 		ft_memcpy(new_ptr, ptr, size);
-		ft_free(ptr);
+		free(ptr);
 		return (new_ptr);
 	}
 }
@@ -62,7 +62,7 @@ static int		is_in_large(void *ptr)
 	return (0);
 }
 
-void			*ft_realloc(void *ptr, size_t size)
+void			*realloc(void *ptr, size_t size)
 {
 	if (size <= 0)
 		return (NULL);

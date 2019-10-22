@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   free.c                                           .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 10:53:09 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 10:53:11 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/21 17:50:12 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -53,7 +53,7 @@ static int	free_large(void *ptr)
 	return (0);
 }
 
-void		ft_free(void *ptr)
+void		free(void *ptr)
 {
 	if (ptr == NULL || ptr == 0)
 		return ;

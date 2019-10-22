@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   ft_malloc.c                                      .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/09/12 15:25:46 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 11:14:59 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/22 11:06:28 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,7 @@ t_mapping	g_mapping = {NULL, NULL, NULL};
 static t_large_data	*add_zone_large(size_t size, size_t zone_size)
 {
 	g_mapping.large->next = mmap(MMAP_ARGS(zone_size + sizeof(t_large_data)));
-	if (g_mapping.large->next == NULL)
+	if (g_mapping.large->next == MAP_FAILED)
 		return (NULL);
 	g_mapping.large->next->prev = g_mapping.large;
 	g_mapping.large = g_mapping.large->next;
@@ -28,25 +28,29 @@ static t_large_data	*add_zone_large(size_t size, size_t zone_size)
 	return (g_mapping.large);
 }
 
-static void			init_zone_large(size_t size, size_t zone_size)
+static void			*init_zone_large(size_t size, size_t zone_size)
 {
 	g_mapping.large = mmap(MMAP_ARGS(zone_size + sizeof(t_large_data)));
-	if (g_mapping.large == NULL)
-		return ;
+	if (g_mapping.large == MAP_FAILED)
+		return (NULL);
 	g_mapping.large->addr = mmap(MMAP_ARGS(zone_size));
 	g_mapping.large->next = NULL;
 	g_mapping.large->prev = NULL;
 	g_mapping.large->size = size;
+	return (g_mapping.large);
 }
 
-void				*malloc_large(size_t size, size_t zone_size)
+static void			*malloc_large(size_t size, size_t zone_size)
 {
 	void		*res;
 	int			i;
 
 	i = 0;
 	if (g_mapping.large == NULL)
-		init_zone_large(size, zone_size);
+	{
+		if (init_zone_large(size, zone_size) == NULL)
+			return (NULL);
+	}
 	else
 	{
 		while (g_mapping.large->next != NULL)
@@ -59,7 +63,7 @@ void				*malloc_large(size_t size, size_t zone_size)
 	return (res);
 }
 
-void				*ft_malloc(size_t size)
+void				*malloc(size_t size)
 {
 	if (size <= 0)
 		return (NULL);

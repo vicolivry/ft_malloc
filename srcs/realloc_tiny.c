@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   realloc_tiny.c                                   .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 11:15:57 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 11:15:58 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/21 17:51:48 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,9 +25,9 @@ static void	*realloc_data_tiny(t_tiny_data *tiny, int i, void *ptr, size_t size)
 	}
 	else
 	{
-		new_ptr = ft_malloc(size);
+		new_ptr = malloc(size);
 		ft_memcpy(new_ptr, ptr, size);
-		ft_free(ptr);
+		free(ptr);
 		return (new_ptr);
 	}
 }
