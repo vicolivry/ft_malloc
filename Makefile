@@ -6,7 +6,7 @@
 #    By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/03/15 17:31:08 by volivry      #+#   ##    ##    #+#        #
-#    Updated: 2019/10/22 14:56:05 by vico        ###    #+. /#+    ###.fr      #
+#    Updated: 2019/10/22 15:36:58 by volivry     ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -33,13 +33,13 @@ OBJECTS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 all: $(NAME)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@$(CC) $(CCFLAGS) -o $@ -c $<
+	@$(CC) $(CCFLAGS) -fPIC -I. -o $@ -c $<
 
 $(NAME): $(OBJECTS)
 	@echo "Generating $(NAME)"
-	@ar rcs $(NAME) $(OBJECTS)
+	$(CC) $(CCFLAGS) $(OBJECTS) -I ./includes -shared -o $(NAME)
 	@(echo "Malloc libft done\033[0m";)
-	@ln -fs $(NAME) $(SYMLINK)
+	@ln -sf $(NAME) $(SYMLINK)
 
 build:
 	@mkdir -p $(OBJDIR)
