@@ -3,10 +3,10 @@
 /*                                                              /             */
 /*   free_small.c                                     .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
-/*   By: volivry <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
+/*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 11:14:42 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 11:14:43 by volivry     ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/28 11:26:35 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,7 @@ static void	free_data_small(t_small_data *small, int i, void *ptr)
 	ft_bzero(ptr, small->data_tab[0][i]);
 	small->data_tab[1][i] = 0;
 	small->data_tab[0][i] = 0;
+	ptr = NULL;
 	if (!small_is_empty(small))
 		return ;
 	if (g_mapping.small == small && small->next == NULL)

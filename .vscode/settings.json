@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.so": "c",
-        "ft_malloc.h": "c",
-        "stdlib.h": "c"
-    }
-}

@@ -2,25 +2,28 @@
 
 int main(void)
 {
-	char *str;
-	char	*str2;
-	char	*str3;
+	int	i = 0;
 
-	str = (char*)malloc(6);
-	str[0] = 'a';
-	str[1] = 'b';
-	str[2] = 'c';
-	str[3] = 'd';
-	str[4] = '\n';
-	str[5] = '\0';
-	str2 = (char*)malloc(10000000000000);
-	str3 = (char*)malloc(10000000000000);
-	str2[1] = '\n';
-	str2[3] = '\0';
+	char*str;
+	void *ptr;
+	void *ptr2;
+	void *ptr3;
 
-	ft_print(str);
-	// free(str);
-	// show_alloc_mem();
-	// ft_print(str2);
+	while (i++ < 200)
+	{
+		malloc(10);
+		str = (char*)malloc(10);
+		str[0] = 'a';
+		str[1] = '\n';
+		str[2] = '\0';
+	}
+	// ptr = malloc(5);
+	// ptr2 = malloc(1000);
+	// ptr3 = malloc(2000);
+
+	// free(ptr);
+	// free(ptr2);
+	// free(ptr3);
+
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 10:53:09 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 17:50:12 by vico        ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/28 11:16:00 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,6 +32,7 @@ static void	free_data_large(t_large_data *large, void *ptr)
 	}
 	munmap(large->addr, large_zone_size(large->size));
 	munmap(large, sizeof(t_large_data));
+	ptr = NULL;
 }
 
 static int	free_large(void *ptr)
@@ -57,10 +58,33 @@ void		free(void *ptr)
 {
 	if (ptr == NULL || ptr == 0)
 		return ;
-	if (free_tiny(ptr))
+	if (is_in_tiny(ptr))
+	{
+		ft_print("TINY FREED PTR: ");
+		put_ui_to_hex((uintmax_t)ptr);
+		ft_print("\n");
+		free_tiny(ptr);
 		return ;
-	else if (free_small(ptr))
+	}
+	else if (is_in_small(ptr))
+	{	
+		ft_print("SMALL FREED PTR: ");
+		put_ui_to_hex((uintmax_t)ptr);
+		ft_print("\n");
+		free_small(ptr);
 		return ;
-	else
+	}
+	else if (is_in_large(ptr))
+	{		
+		ft_print("LARGE FREED PTR: ");
+		put_ui_to_hex((uintmax_t)ptr);
+		ft_print("\n");
 		free_large(ptr);
+		ft_print("LARGE FREED\n");
+		return ;
+	}
+	ft_print("FREED PTR: ");
+	put_ui_to_hex((uintmax_t)ptr);
+	ft_print("\n");
+	ft_print("ANORMAL WAY OUT OF FREE\n");
 }

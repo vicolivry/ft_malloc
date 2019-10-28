@@ -6,7 +6,7 @@
 /*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 11:15:11 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/21 17:51:09 by vico        ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/28 11:16:00 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -46,24 +46,9 @@ static void		*realloc_large(void *ptr, size_t size)
 	return (NULL);
 }
 
-static int		is_in_large(void *ptr)
-{
-	t_large_data	*large;
-
-	large = g_mapping.large;
-	if (large == NULL)
-		return (0);
-	while (large != NULL)
-	{
-		if (large->addr == ptr)
-			return (1);
-		large = large->next;
-	}
-	return (0);
-}
-
 void			*realloc(void *ptr, size_t size)
 {
+	ft_print("IN REALLOC\n");
 	if (size <= 0)
 		return (NULL);
 	if (is_in_tiny(ptr))

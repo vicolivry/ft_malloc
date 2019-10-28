@@ -6,7 +6,7 @@
 /*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 11:15:23 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/22 11:12:19 by vico        ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/28 11:16:00 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,14 +15,16 @@
 
 static t_small_data	*add_zone_small(void)
 {
-	g_mapping.small->next = mmap(MMAP_ARGS(sizeof(t_small_data)));
+	g_mapping.small->next = (t_small_data*)mmap(MMAP_ARGS(PAGESIZE));
 	if (g_mapping.small->next == MAP_FAILED)
 		return (NULL);
 	g_mapping.small->next->prev = g_mapping.small;
 	g_mapping.small = g_mapping.small->next;
-	g_mapping.small->addr = mmap(MMAP_ARGS(SMALL_SIZE_AREA));
+	g_mapping.small->addr = (void*)mmap(MMAP_ARGS(SMALL_SIZE_AREA));
+	if (g_mapping.small->addr == MAP_FAILED)
+		return (NULL);
 	g_mapping.small->next = NULL;
-	g_mapping.small->size = SMALL_SIZE_AREA - sizeof(t_small_data);
+	g_mapping.small->size = SMALL_SIZE_AREA;
 	ft_bzero(g_mapping.small->data_tab[0], SMALL_MAX);
 	ft_bzero(g_mapping.small->data_tab[1], SMALL_MAX);
 	return (g_mapping.small);
@@ -30,13 +32,15 @@ static t_small_data	*add_zone_small(void)
 
 static void			*init_zone_small(void)
 {
-	g_mapping.small = mmap(MMAP_ARGS(sizeof(t_small_data)));
+	g_mapping.small = (t_small_data*)mmap(MMAP_ARGS(PAGESIZE));
 	if (g_mapping.small == MAP_FAILED)
 		return (NULL);
-	g_mapping.small->addr = mmap(MMAP_ARGS(SMALL_SIZE_AREA));
+	g_mapping.small->addr = (void*)mmap(MMAP_ARGS(SMALL_SIZE_AREA));
+	if (g_mapping.small->addr == MAP_FAILED)
+		return (NULL);
 	g_mapping.small->next = NULL;
 	g_mapping.small->prev = NULL;
-	g_mapping.small->size = SMALL_SIZE_AREA - sizeof(t_small_data);
+	g_mapping.small->size = SMALL_SIZE_AREA;
 	ft_bzero(g_mapping.small->data_tab[0], SMALL_MAX);
 	ft_bzero(g_mapping.small->data_tab[1], SMALL_MAX);
 	return (g_mapping.small);
@@ -67,5 +71,8 @@ void				*malloc_small(size_t size)
 	res = g_mapping.small->addr + (i * SMALL_ALLOC_SIZE);
 	while (g_mapping.small->prev)
 		g_mapping.small = g_mapping.small->prev;
+	ft_print("SMALL NEW PTR: ");
+	put_ui_to_hex((uintmax_t)res);
+	ft_print("\n");
 	return (res);
 }

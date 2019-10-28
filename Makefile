@@ -6,7 +6,7 @@
 #    By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/03/15 17:31:08 by volivry      #+#   ##    ##    #+#        #
-#    Updated: 2019/10/22 15:36:58 by volivry     ###    #+. /#+    ###.fr      #
+#    Updated: 2019/10/28 14:07:11 by vico        ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -33,7 +33,7 @@ OBJECTS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 all: $(NAME)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@$(CC) $(CCFLAGS) -fPIC -I. -o $@ -c $<
+	@$(CC) $(CCFLAGS) -I. -o $@ -c $<
 
 $(NAME): $(OBJECTS)
 	@echo "Generating $(NAME)"

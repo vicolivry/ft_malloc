@@ -6,12 +6,13 @@
 /*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/09/12 15:25:46 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/22 11:06:28 by vico        ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/28 12:32:11 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "../includes/ft_malloc.h"
+#include <stdio.h>
 
 t_mapping	g_mapping = {NULL, NULL, NULL};
 
@@ -22,7 +23,7 @@ static t_large_data	*add_zone_large(size_t size, size_t zone_size)
 		return (NULL);
 	g_mapping.large->next->prev = g_mapping.large;
 	g_mapping.large = g_mapping.large->next;
-	g_mapping.large->addr = &g_mapping.large->next;
+	g_mapping.large->addr = mmap(MMAP_ARGS(zone_size));
 	g_mapping.large->next = NULL;
 	g_mapping.large->size = size;
 	return (g_mapping.large);
@@ -30,7 +31,7 @@ static t_large_data	*add_zone_large(size_t size, size_t zone_size)
 
 static void			*init_zone_large(size_t size, size_t zone_size)
 {
-	g_mapping.large = mmap(MMAP_ARGS(zone_size + sizeof(t_large_data)));
+	g_mapping.large = mmap(MMAP_ARGS(sizeof(t_large_data)));
 	if (g_mapping.large == MAP_FAILED)
 		return (NULL);
 	g_mapping.large->addr = mmap(MMAP_ARGS(zone_size));
@@ -44,7 +45,6 @@ static void			*malloc_large(size_t size, size_t zone_size)
 {
 	void		*res;
 	int			i;
-
 	i = 0;
 	if (g_mapping.large == NULL)
 	{
@@ -60,6 +60,9 @@ static void			*malloc_large(size_t size, size_t zone_size)
 	res = g_mapping.large->addr;
 	while (g_mapping.large->prev)
 		g_mapping.large = g_mapping.large->prev;
+	ft_print("LARGE NEW PTR: ");
+	put_ui_to_hex((uintmax_t)res);
+	ft_print("\n");
 	return (res);
 }
 
@@ -68,10 +71,16 @@ void				*malloc(size_t size)
 	if (size <= 0)
 		return (NULL);
 	if (size <= TINY_ALLOC_SIZE)
+	{
 		return (malloc_tiny(size));
+	}
 	else if (size <= SMALL_ALLOC_SIZE)
+	{
 		return (malloc_small(size));
+	}
 	else
+	{
 		return (malloc_large(size, large_zone_size(size)));
+	}
 	return (NULL);
 }
