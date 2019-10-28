@@ -11,9 +11,10 @@ int main(void)
 
 	while (i++ < 200)
 	{
-		malloc(10);
 		str = (char*)malloc(10);
+		ft_print("PRE ASSIGN str[0]\n");
 		str[0] = 'a';
+		ft_print("POST ASSIGN str[0]\n");
 		str[1] = '\n';
 		str[2] = '\0';
 	}

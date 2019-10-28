@@ -43,8 +43,8 @@ static void			*init_zone_large(size_t size, size_t zone_size)
 
 static void			*malloc_large(size_t size, size_t zone_size)
 {
-	void		*res;
-	int			i;
+	void			*res;
+	int				i;
 	i = 0;
 	if (g_mapping.large == NULL)
 	{

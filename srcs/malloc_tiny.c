@@ -27,7 +27,7 @@ static void	*add_zone_tiny(void)
 	g_mapping.tiny->size = TINY_SIZE_AREA - sizeof(t_tiny_data);
 	ft_bzero(g_mapping.tiny->data_tab[0], TINY_MAX);
 	ft_bzero(g_mapping.tiny->data_tab[1], TINY_MAX);
-	return (g_mapping.tiny->addr);
+	return (g_mapping.tiny);
 }
 
 static void			*init_zone_tiny(void)
@@ -40,7 +40,6 @@ static void			*init_zone_tiny(void)
 		return (NULL);
 	g_mapping.tiny->next = NULL;
 	g_mapping.tiny->prev = NULL;
-	g_mapping.tiny->size = TINY_SIZE_AREA - sizeof(t_tiny_data);
 	ft_bzero(g_mapping.tiny->data_tab[0], TINY_MAX);
 	ft_bzero(g_mapping.tiny->data_tab[1], TINY_MAX);
 	return (g_mapping.tiny->addr);
