@@ -6,7 +6,7 @@
 /*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 11:15:11 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/28 11:16:00 by vico        ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/28 16:44:23 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,7 @@ static void		*realloc_data_large(t_large_data *large, void *ptr, size_t size)
 	void	*new_ptr;
 
 	new_ptr = NULL;
-	if (size > SMALL_ALLOC_SIZE && size > large_zone_size(large->size))
+	if (size > SMALL_ALLOC_SIZE && size <= large_zone_size(large->size))
 	{
 		large->size = size;
 		return (ptr);
@@ -48,10 +48,11 @@ static void		*realloc_large(void *ptr, size_t size)
 
 void			*realloc(void *ptr, size_t size)
 {
-	ft_print("IN REALLOC\n");
 	if (size <= 0)
 		return (NULL);
-	if (is_in_tiny(ptr))
+	if (ptr == NULL)
+		return (ptr = malloc(size));
+	else if (is_in_tiny(ptr))
 		return (realloc_tiny(ptr, size));
 	else if (is_in_small(ptr))
 		return (realloc_small(ptr, size));

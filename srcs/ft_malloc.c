@@ -6,7 +6,7 @@
 /*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/09/12 15:25:46 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/28 12:32:11 by vico        ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/28 15:25:10 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,8 +44,7 @@ static void			*init_zone_large(size_t size, size_t zone_size)
 static void			*malloc_large(size_t size, size_t zone_size)
 {
 	void			*res;
-	int				i;
-	i = 0;
+
 	if (g_mapping.large == NULL)
 	{
 		if (init_zone_large(size, zone_size) == NULL)
@@ -60,9 +59,6 @@ static void			*malloc_large(size_t size, size_t zone_size)
 	res = g_mapping.large->addr;
 	while (g_mapping.large->prev)
 		g_mapping.large = g_mapping.large->prev;
-	ft_print("LARGE NEW PTR: ");
-	put_ui_to_hex((uintmax_t)res);
-	ft_print("\n");
 	return (res);
 }
 
@@ -71,16 +67,10 @@ void				*malloc(size_t size)
 	if (size <= 0)
 		return (NULL);
 	if (size <= TINY_ALLOC_SIZE)
-	{
 		return (malloc_tiny(size));
-	}
 	else if (size <= SMALL_ALLOC_SIZE)
-	{
 		return (malloc_small(size));
-	}
 	else
-	{
 		return (malloc_large(size, large_zone_size(size)));
-	}
 	return (NULL);
 }

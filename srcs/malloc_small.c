@@ -6,7 +6,7 @@
 /*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/21 11:15:23 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/28 11:16:00 by vico        ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/28 15:22:16 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -71,8 +71,5 @@ void				*malloc_small(size_t size)
 	res = g_mapping.small->addr + (i * SMALL_ALLOC_SIZE);
 	while (g_mapping.small->prev)
 		g_mapping.small = g_mapping.small->prev;
-	ft_print("SMALL NEW PTR: ");
-	put_ui_to_hex((uintmax_t)res);
-	ft_print("\n");
 	return (res);
 }

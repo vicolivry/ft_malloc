@@ -6,7 +6,7 @@
 #    By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2018/03/15 17:31:08 by volivry      #+#   ##    ##    #+#        #
-#    Updated: 2019/10/28 14:07:11 by vico        ###    #+. /#+    ###.fr      #
+#    Updated: 2019/10/29 10:03:26 by vico        ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -32,21 +32,21 @@ OBJECTS = $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 all: $(NAME)
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | objs
 	@$(CC) $(CCFLAGS) -I. -o $@ -c $<
 
 $(NAME): $(OBJECTS)
-	@echo "Generating $(NAME)"
-	$(CC) $(CCFLAGS) $(OBJECTS) -I ./includes -shared -o $(NAME)
-	@(echo "Malloc libft done\033[0m";)
+	@$(CC) $(CCFLAGS) $(OBJECTS) -I ./includes -shared -o $(NAME)
+	@(echo "$(NAME) done\033[0m";)
 	@ln -sf $(NAME) $(SYMLINK)
 
-build:
+objs:
 	@mkdir -p $(OBJDIR)
 
 clean:
 	@echo "CLEANING OBJECTS"
 	@rm -f $(OBJECTS)
+	@rm -rf $(OBJDIR)
 
 fclean: clean
 	@echo "CLEANING ALL"

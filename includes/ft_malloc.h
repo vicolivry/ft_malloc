@@ -6,7 +6,7 @@
 /*   By: vico <vico@student.le-101.fr>              +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/09/12 13:23:42 by volivry      #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/28 11:16:33 by vico        ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/28 16:11:46 by vico        ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,7 +21,7 @@
 # define PAGESIZE getpagesize()
 # define MMAP_ARGS(s) NULL, s, PROT_READ|PROT_WRITE, MAP_ANON|MAP_PRIVATE, -1, 0
 
-# define TINY_MAX 128
+# define TINY_MAX 256
 # define TINY_ALLOC_SIZE 512
 # define TINY_SIZE_AREA (TINY_MAX * TINY_ALLOC_SIZE)
 
